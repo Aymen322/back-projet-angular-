@@ -16,10 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedInteger('starnumber');
             $table->timestamps();
-
-            // Foreign key constraint
-            $table->unsignedBigInteger('hotel_id');
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
         });
     }
 

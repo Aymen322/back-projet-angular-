@@ -8,8 +8,9 @@ class CategoryHotel extends Model
 {
     protected $fillable = ['name', 'starnumber'];
 
-    public function hotel()
+    public function hotels()
     {
-        return $this->belongsTo(Hotel::class);
+        return $this->hasMany(Hotel::class);
     }
 }
+

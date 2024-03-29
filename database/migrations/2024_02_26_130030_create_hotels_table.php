@@ -20,6 +20,12 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('promotion')->nullable();
+            $table->string('price'); 
+            $table->unsignedBigInteger('category_hotel_id');
+            $table->foreign('category_hotel_id')
+                  ->references('id')
+                  ->on('category_hotels')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

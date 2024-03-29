@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HotelController extends Controller
 {
@@ -15,7 +16,23 @@ class HotelController extends Controller
 
     public function store(Request $request)
     {
-        $hotel = Hotel::create($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string',
+            'contact_email' => 'nullable|email',
+            'city' => 'nullable|string',
+            'contact_phone' => 'nullable|string',
+            'promotion' => 'nullable|string',
+            'price' => 'required|numeric',
+            'category_hotel_id' => 'required|exists:category_hotels,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $hotel = Hotel::create($validator->validated());
         return response()->json($hotel, 201);
     }
 
@@ -26,7 +43,23 @@ class HotelController extends Controller
 
     public function update(Request $request, Hotel $hotel)
     {
-        $hotel->update($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'string',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string',
+            'contact_email' => 'nullable|email',
+            'city' => 'nullable|string',
+            'contact_phone' => 'nullable|string',
+            'promotion' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'category_hotel_id' => 'exists:category_hotels,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $hotel->update($validator->validated());
         return response()->json($hotel, 200);
     }
 
