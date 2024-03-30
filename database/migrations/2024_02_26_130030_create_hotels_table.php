@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,11 +19,18 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('promotion')->nullable();
+            $table->string('review')->nullable();
             $table->string('price'); 
             $table->unsignedBigInteger('category_hotel_id');
             $table->foreign('category_hotel_id')
                   ->references('id')
                   ->on('category_hotels')
+                  ->onDelete('cascade');
+            // Add region_id column and foreign key
+            $table->unsignedBigInteger('region_id');
+            $table->foreign('region_id')
+                  ->references('id')
+                  ->on('regions')
                   ->onDelete('cascade');
             $table->timestamps();
         });

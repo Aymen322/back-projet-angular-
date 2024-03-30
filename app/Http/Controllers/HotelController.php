@@ -25,7 +25,9 @@ class HotelController extends Controller
             'contact_phone' => 'nullable|string',
             'promotion' => 'nullable|string',
             'price' => 'required|numeric',
+            'review' => ['required', 'regex:/^\d+(\.\d{1})?$/'],
             'category_hotel_id' => 'required|exists:category_hotels,id',
+            'region_id' => 'required|exists:regions,id', 
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +54,9 @@ class HotelController extends Controller
             'contact_phone' => 'nullable|string',
             'promotion' => 'nullable|string',
             'price' => 'nullable|numeric',
+            'review' => ['required', 'regex:/^\d+(\.\d{1})?$/'],
             'category_hotel_id' => 'exists:category_hotels,id',
+            'region_id' => 'exists:regions,id', 
         ]);
 
         if ($validator->fails()) {
@@ -67,5 +71,14 @@ class HotelController extends Controller
     {
         $hotel->delete();
         return response()->json(null, 204);
+    }
+    public function filterByStarNumber(Request $request)
+    {
+        $starNumber = $request->input('star_number');
+        $hotels = Hotel::whereHas('category', function ($query) use ($starNumber) {
+            $query->where('starnumber', $starNumber);
+        })->get();
+
+        return response()->json($hotels);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategoryHotelController;
+use App\Http\Controllers\RegionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +31,8 @@ Route::middleware('api')->group(function () {
 
     // Routes for CategoryHotelController
     Route::resource('category_hotels', CategoryHotelController::class);
+    // Routes for Region
+    Route::resource('regions', RegionController::class);
+    Route::get('hotels/filter_by_star', 'HotelController@filterByStarNumber');
+
 });
