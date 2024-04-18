@@ -35,4 +35,10 @@ class CategoryHotelController extends Controller
         $categoryHotel->delete();
         return response()->json(null, 204);
     }
+
+    public function showById($id)
+    {
+        $categoryHotel = CategoryHotel::findOrFail($id);
+        return response()->json($categoryHotel);
+    }
 }

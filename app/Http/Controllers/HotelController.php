@@ -13,6 +13,17 @@ class HotelController extends Controller
         $hotels = Hotel::all();
         return response()->json($hotels);
     }
+    public function findById($id)
+    {
+        $hotel = Hotel::find($id);
+
+        if (!$hotel) {
+            return response()->json(['error' => 'Hotel not found'], 404);
+        }
+
+        return response()->json($hotel);
+    }
+
 
     public function store(Request $request)
     {
@@ -26,8 +37,9 @@ class HotelController extends Controller
             'promotion' => 'nullable|string',
             'price' => 'required|numeric',
             'review' => ['required', 'regex:/^\d+(\.\d{1})?$/'],
+            'starnumber'=>'nullable|string',
             'category_hotel_id' => 'required|exists:category_hotels,id',
-            'region_id' => 'required|exists:regions,id', 
+            'region_id' => 'required|exists:regions,id',
         ]);
 
         if ($validator->fails()) {
@@ -55,8 +67,9 @@ class HotelController extends Controller
             'promotion' => 'nullable|string',
             'price' => 'nullable|numeric',
             'review' => ['required', 'regex:/^\d+(\.\d{1})?$/'],
+            'starnumber'=>'nullable|string',
             'category_hotel_id' => 'exists:category_hotels,id',
-            'region_id' => 'exists:regions,id', 
+            'region_id' => 'exists:regions,id',
         ]);
 
         if ($validator->fails()) {

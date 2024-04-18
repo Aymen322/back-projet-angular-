@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('promotion')->nullable();
             $table->string('review')->nullable();
             $table->string('price'); 
+            $table->string('starnumber'); 
             $table->unsignedBigInteger('category_hotel_id');
             $table->foreign('category_hotel_id')
                   ->references('id')
