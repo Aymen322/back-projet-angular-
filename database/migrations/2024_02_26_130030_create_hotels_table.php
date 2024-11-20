@@ -22,11 +22,6 @@ return new class extends Migration
             $table->string('review')->nullable();
             $table->string('price'); 
             $table->string('starnumber'); 
-            $table->unsignedBigInteger('category_hotel_id');
-            $table->foreign('category_hotel_id')
-                  ->references('id')
-                  ->on('category_hotels')
-                  ->onDelete('cascade');
             // Add region_id column and foreign key
             $table->unsignedBigInteger('region_id');
             $table->foreign('region_id')

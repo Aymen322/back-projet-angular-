@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -34,5 +35,14 @@ class ReservationController extends Controller
     {
         $reservation->delete();
         return response()->json(null, 204);
+    }
+    public function reservationsByHotel()
+    {
+        $reservationsByHotel = DB::table('reservations')
+            ->select('hotel_id', DB::raw('count(*) as count'))
+            ->groupBy('hotel_id')
+            ->get();
+
+        return response()->json($reservationsByHotel);
     }
 }

@@ -25,14 +25,22 @@ Route::middleware('api')->group(function () {
 
     // Routes for ReservationController
     Route::resource('reservations', ReservationController::class);
+    Route::get('reservations/by-hotel', [ReservationController::class, 'reservationsByHotel']);
+
 
     // Routes for ClientController
     Route::resource('clients', ClientController::class);
-
-    // Routes for CategoryHotelController
-    Route::resource('category_hotels', CategoryHotelController::class);
     // Routes for Region
     Route::resource('regions', RegionController::class);
     Route::get('hotels/filter_by_star', 'HotelController@filterByStarNumber');
+
+    Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [\App\Http\Controllers\AuthController::class, 'user']);
+    Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+});
 
 });
